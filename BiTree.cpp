@@ -5,7 +5,7 @@ typedef struct BiTree{
 	struct BiTree *Lchild,*Rchild;
 }BiTree,*BiNode;
 
-bool Insert(BiTree *&Root,int data){
+BiNode Insert(BiTree *&Root,int data){
 	
 	if(Root==NULL){
 		BiNode ptr;
@@ -13,16 +13,27 @@ bool Insert(BiTree *&Root,int data){
 		ptr->data=data;
 		ptr->Lchild=NULL;
 		ptr->Rchild=NULL;
-		Root=ptr;
-		return true;	
+		Root=ptr;	
 	}
 	else if(data<Root->data){
-	   return Insert(Root->Lchild,data);
+	   Root->Lchild=Insert(Root->Lchild,data);
 	}
-	else{
-		return Insert(Root->Rchild,data);
+	else if(data>Root->data){
+		Root->Lchild=Insert(Root->Rchild,data);
 	}
-	return false;
+	return Root;
+}
+
+BiTree *Find(BiTree *&Root,int data){       //二叉树的查找  递归算法 
+	if(NULL==Root||data==Root->data){
+		return Root;      //找到，返回在二叉树中的位置 
+	}
+	else if(data<Root->data){
+		Root->Lchild=Find(Root->Lchild,data);
+	}
+	else if(data>Root->data){
+		Root->Rchild=Find(Root->Rchild,data);
+	}
 }
 void Init(BiTree *&Root){
 	Root=NULL;
@@ -50,10 +61,10 @@ int main(){
 	cout<<endl;
 	Insert(Root,9);
 	InOrder(Root);
+	int data;
+    cout<<endl<<"请输入要查找的数据：";
+    cin>>data;
+    Root=Find(Root,data);
+    cout<<endl<<"Find: "<<Root->data<<"  Address: "<<Root<<endl; 
 	return 0;
 }
-
-
-
-
-
