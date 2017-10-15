@@ -79,8 +79,7 @@ int Depth(BiTree *&Root){
 	}
 	return (Ldepth>Rdepth?Ldepth:Rdepth)+1;    //比较左子树和右子树的深度，返回深度较大的 
 }
-
-bool Insert(BiTree *&Root,ElemType data){     //在有序二叉树中插入数据   递归算法 
+BiTree *Insert(BiTree *&Root,ElemType data){     //在有序二叉树中插入数据   递归算法 
 	
 	if(NULL==Root){
 		BiNode temp = new BiTree;
@@ -88,20 +87,17 @@ bool Insert(BiTree *&Root,ElemType data){     //在有序二叉树中插入数�
 		temp->Lchild=NULL;
 		temp->Rchild=NULL;
 		Root=temp;     //二叉树根节点为空，则此数为根 
-		return true;
-	}
-	else if(data==Root->data){           //有相同数据时插入失败 
-		return false;
 	}
 	else if(data<Root->data){
-		return Insert(Root->Lchild,data);   //小于根节点，递归遍历左子树插入到合适位置 
+		Root->Lchild = Insert(Root->Lchild,data);   //小于根节点，递归遍历左子树插入到合适位置 
 	}
-	else{
-		return Insert(Root->Rchild,data);  //大于根节点，递归遍历插入到合适位置 
+	else if(data>Root->data){
+		Root->Rchild = Insert(Root->Rchild,data);  //大于根节点，递归遍历插入到合适位置 
 	}
-} 
+	return Root;
+}
 
-BiTree *Find(BiTree *&Root,ElemType data){       //二叉树的查找  递归算法 
+BiTree *Find(BiTree *&Root,ElemType data){       //二叉树的查找  递归算法 适用于二叉排序树
 	if(NULL==Root||data==Root->data){
 		return Root;      //找到，返回在二叉树中的位置 
 	}
