@@ -42,7 +42,7 @@ void Merge(int *Array,int *tempArray,int low,int mid,int high){
 void MergeSort(int *Array,int *tempArray,int low,int high){
 	if( low < high ){
 		
-		int mid = (low+high)/2;
+		int mid = low+(high-low)/2;
 		//递归划分左侧数组 
 		MergeSort(Array,tempArray,low,mid);
 		//地规划分右侧数组 
