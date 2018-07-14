@@ -8,7 +8,7 @@ int binarySearch(int *a,int key){
 	int low = 0;
 	int high = N-1;
 	while(low<=high){
-		int mid = (low+high)/2;
+		int mid = low+(high-low)/2;
 		if(key==a[mid])
 		    return mid;
 		else if(key>a[mid])
