@@ -5,31 +5,32 @@
 #define N 10
 using namespace std;
 
-class LinkedList{
+class LinkList{
 	private:
 		int data;
-		LinkedList *next;
+		LinkList *next;
 	public:
-	    LinkedList(){}
-	    void Init(LinkedList *&L);
-	    void Create(LinkedList *&L);
-	    bool IsEmpty(LinkedList *&L);
-	    bool Insert(LinkedList *&L,int key,int data);
-	    bool Delete(LinkedList *&L,int data);
-	    bool Reverse(LinkedList *&L);
-	    void Destroy(LinkedList *&L);
-	    void Show(LinkedList *&L);
-		~LinkedList(){}
+	    LinkList(){}
+	    void Init(LinkList *&L);
+	    void Create(LinkList *&L);
+	    void insertToFirst(LinkList *&L,int data);
+	    bool IsEmpty(LinkList *&L);
+	    bool Insert(LinkList *&L,int key,int data);
+	    bool Delete(LinkList *&L,int data);
+	    bool Reverse(LinkList *&L);
+	    void Destroy(LinkList *&L);
+		void Show(LinkList *&L);
+		~LinkList(){}
 };
 
-void LinkedList::Init(LinkedList *&L){
-	L = new LinkedList;
+void LinkList::Init(LinkList *&L){
+	L = new LinkList;
 	L->next = NULL;
 }
 
-void LinkedList::Create(LinkedList *&L){
+void LinkList::Create(LinkList *&L){
 	srand(time(0));
-	LinkedList *ptr=L->next,*temp=L;
+	LinkList *ptr=L->next,*temp=L;
 	for(int i=0;i<N;i++){
 		ptr = new LinkList;
 		ptr->data=rand()%100;
@@ -39,12 +40,12 @@ void LinkedList::Create(LinkedList *&L){
 	temp->next=NULL;
 }
 
-bool LinkedList::IsEmpty(LinkedList *&L){
+bool LinkList::IsEmpty(LinkList *&L){
 	return (L->next==NULL);
 }
 
-bool LinkedList::Insert(LinkedList *&L,int key,int data){
-	LinkedList *ptr=L->next,*temp;
+bool LinkList::Insert(LinkList *&L,int key,int data){
+	LinkList *ptr=L->next,*temp;
 	if(IsEmpty(L)){
 		return false;
 	}
@@ -61,8 +62,16 @@ bool LinkedList::Insert(LinkedList *&L,int key,int data){
 	return false;
 }
 
-bool LinkedList::Delete(LinkedList *&L,int data){
-	LinkedList *ptr=L->next,*temp=L;
+void LinkList::insertToFirst(LinkList *&L,int data){
+	LinkList *tmp = new LinkList;
+	tmp->data = data;
+	tmp->next = L->next;
+	L->next = tmp;
+}
+
+
+bool LinkList::Delete(LinkList *&L,int data){
+	LinkList *ptr=L->next,*temp=L;
 	if(IsEmpty(L)){
 		return false;
 	}
@@ -76,7 +85,7 @@ bool LinkedList::Delete(LinkedList *&L,int data){
 	}
 }
 
-bool LinkedList::Reverse(LinkedList *&L){
+bool LinkList::Reverse(LinkList *&L){
 	LinkList *ptr=L->next,*temp=L;
 	L->next=NULL;
 	while(ptr){
@@ -88,15 +97,15 @@ bool LinkedList::Reverse(LinkedList *&L){
 	return true;
 }
 
-void LinkedList::Show(LinkedList *&L){
-	for(LinkedList *ptr=L->next;ptr;ptr=ptr->next){
+void LinkList::Show(LinkList *&L){
+	for(LinkList *ptr=L->next;ptr;ptr=ptr->next){
 		cout<<ptr->data<<"  ";
 	}
 	
 }
 
-void LinkedList::Destroy(LinkedList *&L){
-	LinkedList *ptr=L->next;
+void LinkList::Destroy(LinkList *&L){
+	LinkList *ptr=L->next;
 	while(ptr){
 		free(L);
 		L=ptr;
@@ -105,12 +114,13 @@ void LinkedList::Destroy(LinkedList *&L){
 	free(L);
 }
 int main(){
-	LinkedList *L;
+	LinkList *L;
 	cout<<"初始化的链表为：";
 	L->Init(L);
+	
 	L->Create(L);
 	L->Show(L);
-	
+	L->insertToFirst(L,99);
 	cout<<endl<<"判断是否为空："<<L->IsEmpty(L)<<endl; 
 	
 	cout<<endl<<"插入后：";
